@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.mju.ugomall.mapper.UserMapper">
+    <insert id="insert" parameterType="com.edu.mju.ugomall.entity.User">
+        INSERT INTO USER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userAddress != null">
+                user_address,
+            </if>
+            <if test="userSex != null">
+                user_sex,
+            </if>
+            <if test="userAge != null">
+                user_age,
+            </if>
+            <if test="userNickName != null">
+                user_nickname,
+            </if>
+            <if test="userPhoto != null">
+                user_photo,
+            </if>
+            <if test="userPhone != null">
+                user_phone,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userAddress != null">
+                #{userAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="userSex != null">
+                #{userSex,jdbcType=VARCHAR},
+            </if>
+            <if test="userAge != null">
+                #{userAge,jdbcType=VARCHAR},
+            </if>
+            <if test="userNickName != null">
+                #{userNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhoto != null">
+                #{userPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getUserInfo" resultType="com.edu.mju.ugomall.entity.User">
+        SELECT * FROM USER
+        WHERE 1 = 1
+        <if test="userName != null and userName != &quot;&quot; and userName != ''">
+            and user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="userId != null and userId != &quot;&quot; and userId != ''">
+            and user_id like concat('%', #{userId}, '%')
+        </if>
+    </select>
+
+    <delete id="deleteByBatch">
+        DELETE FROM USER
+        WHERE user_id
+        IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getUserInfoById" resultType="com.edu.mju.ugomall.entity.User">
+        SELECT * FROM USER
+        WHERE 1 = 1
+        <if test="userId != null and userId != &quot;&quot; and userId != ''">
+            and user_id like concat('%', #{userId,jdbcType=INTEGER}, '%')
+        </if>
+    </select>
+
+    <update id="updateUserInfo" parameterType="com.edu.mju.ugomall.entity.User">
+        UPDATE USER
+        <set>
+            <if test="userName != null and userName != &quot;&quot;">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null and userPhone != &quot;&quot;">
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhoto != null and userPhoto != &quot;&quot;">
+                user_photo = #{userPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="userAddress != null and userAddress != &quot;&quot;">
+                user_address = #{userAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="userPwd != null and userPwd != &quot;&quot;">
+                user_pwd = #{userPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null and userStatus != &quot;&quot;">
+                user_status = #{userStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="userIdentity != null and userIdentity != &quot;&quot;">
+                user_identity = #{userIdentity,jdbcType=VARCHAR},
+            </if>
+            <if test="userNickName != null and userNickName != &quot;&quot;">
+                user_nickname = #{userNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="userSex != null and userSex != &quot;&quot;">
+                user_sex = #{userSex,jdbcType=VARCHAR},
+            </if>
+            <if test="userAge != null and userAge != &quot;&quot;">
+                user_age = #{userAge,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+    <select id="getUserByUserName" resultType="com.edu.mju.ugomall.entity.User">
+        SELECT * FROM USER
+        WHERE 1=1
+        <if test="userName != null and userName != &quot;&quot; and userName != ''">
+            and user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="userPwd != null and userPwd != &quot;&quot; and userPwd != ''">
+            and user_pwd like concat('%', #{userPwd}, '%')
+        </if>
+    </select>
+    <select id="getUserNum" resultType="int">
+        select count(*) from user
+    </select>
+
+</mapper>

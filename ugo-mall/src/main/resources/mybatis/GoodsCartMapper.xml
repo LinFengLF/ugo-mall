@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.mju.ugomall.mapper.GoodsCartMapper">
+
+    <resultMap type="com.edu.mju.ugomall.entity.GoodsCart" id="GoodsCartMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="goodsId" column="goods_id" jdbcType="INTEGER"/>
+        <result property="goodsSn" column="goods_sn" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="productId" column="product_id" jdbcType="INTEGER"/>
+        <result property="price" column="price" jdbcType="VARCHAR"/>
+        <result property="num" column="num" jdbcType="INTEGER"/>
+        <result property="specifications" column="specifications" jdbcType="VARCHAR"/>
+        <result property="checked" column="checked" jdbcType="INTEGER"/>
+        <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
+        <result property="addTime" column="add_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GoodsCartMap">
+        select
+          id, user_id, goods_id, goods_sn, goods_name, product_id, price, num, specifications, checked, pic_url, add_time, update_time, deleted
+        from mall.goods_cart
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GoodsCartMap">
+        select
+          id, user_id, goods_id, goods_sn, goods_name, product_id, price, num, specifications, checked, pic_url, add_time, update_time, deleted
+        from mall.goods_cart
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GoodsCartMap">
+        select
+          id, user_id, goods_id, goods_sn, goods_name, product_id, price, num, specifications, checked, pic_url, add_time, update_time, deleted
+        from mall.goods_cart
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="goodsId != null">
+                and goods_id = #{goodsId}
+            </if>
+            <if test="goodsSn != null and goodsSn != ''">
+                and goods_sn = #{goodsSn}
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and goods_name = #{goodsName}
+            </if>
+            <if test="productId != null">
+                and product_id = #{productId}
+            </if>
+            <if test="price != null and price != ''">
+                and price = #{price}
+            </if>
+            <if test="num != null">
+                and num = #{num}
+            </if>
+            <if test="specifications != null and specifications != ''">
+                and specifications = #{specifications}
+            </if>
+            <if test="checked != null">
+                and checked = #{checked}
+            </if>
+            <if test="picUrl != null and picUrl != ''">
+                and pic_url = #{picUrl}
+            </if>
+            <if test="addTime != null">
+                and add_time = #{addTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="deleted != null">
+                and deleted = #{deleted}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into mall.goods_cart(user_id, goods_id, goods_sn, goods_name, product_id, price, num, specifications, checked, pic_url, add_time, update_time, deleted)
+        values (#{userId}, #{goodsId}, #{goodsSn}, #{goodsName}, #{productId}, #{price}, #{num}, #{specifications}, #{checked}, #{picUrl}, #{addTime}, #{updateTime}, #{deleted})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update mall.goods_cart
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId},
+            </if>
+            <if test="goodsSn != null and goodsSn != ''">
+                goods_sn = #{goodsSn},
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                goods_name = #{goodsName},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId},
+            </if>
+            <if test="price != null and price != ''">
+                price = #{price},
+            </if>
+            <if test="num != null">
+                num = #{num},
+            </if>
+            <if test="specifications != null and specifications != ''">
+                specifications = #{specifications},
+            </if>
+            <if test="checked != null">
+                checked = #{checked},
+            </if>
+            <if test="picUrl != null and picUrl != ''">
+                pic_url = #{picUrl},
+            </if>
+            <if test="addTime != null">
+                add_time = #{addTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from mall.goods_cart where id = #{id}
+    </delete>
+    <select id="getList" resultMap="GoodsCartMap">
+        select * from goods_cart where 1 = 1
+    </select>
+    <!--通过用户id获取购物车信息-->
+    <select id="getListByUserId" resultMap="GoodsCartMap">
+        select * from goods_cart
+        where 1 = 1
+        <if test="userId != null and userId != &quot;&quot; and userId != ''">
+            and user_id = #{userId}
+        </if>
+        order by id desc
+    </select>
+
+    <delete id="deleteByBatch">
+        delete from goods_cart
+        where id
+        in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <!--查询购物车中是否存在需要添加的商品-->
+    <select id="isExist" resultMap="GoodsCartMap">
+        select *
+        from
+        goods_cart
+        where
+        <if test="userId != null and userId != ''">
+            user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="goodsId != null and goodsId != ''">
+            and goods_id = #{goodsId,jdbcType=VARCHAR}
+        </if>
+        <if test="goodsSn != null and goodsSn != ''">
+            and goods_sn = #{goodsSn,jdbcType=VARCHAR}
+        </if>
+        <if test="goodsName != null and goodsName != ''">
+            and goods_name = #{goodsName,jdbcType=VARCHAR}
+        </if>
+        <if test="price != null and price != ''">
+            and price = #{price,jdbcType=VARCHAR}
+        </if>
+        <if test="specifications != null and specifications != ''">
+            and specifications = #{specifications,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+</mapper>

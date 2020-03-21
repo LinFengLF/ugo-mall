@@ -1,0 +1,72 @@
+#端口号
+server:
+  port: 8080
+
+spring:
+  freemarker:
+    cache: false
+
+  #springMVC转发后缀
+  mvc:
+    view:
+      suffix: .html
+
+  #配置热部署
+  devtools:
+    restart:
+      enabled: true
+      addtional-paths: src/main/java
+      exclude: static
+
+
+  #数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mall?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  #初始化大小，最小，最大
+
+    dbcp2:
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-on-borrow: false
+      test-on-return: false
+      initialSize: 5
+      minIdle: 5
+      validation-query: SELECT 1 FROM DUAL
+      cache-state:
+      max-wait-millis: 60000
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+
+#配置mybatis扫描xml文件以及日志输出
+mybatis:
+  mapper-locations: classpath:mybatis/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+##jwt配置
+audience:
+  # 代表这个JWT的接收对象,存入audience
+  clientId: 098f6bcd4621d373cade4e832627b4f6
+  # 密钥, 经过Base64加密, 可自行替换
+  base64Secret: MDk4ZjZiY2Q0NjIxZDM3M2NhZGU0ZTgzMjYyN2I0ZjY=
+  # JWT的签发主体，存入issuer
+  name: restapiuser
+  # 过期时间，时间戳
+  expiresSecond: 172800
+
+##pageHelper分页插件配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+#  page-size-zero: true
+

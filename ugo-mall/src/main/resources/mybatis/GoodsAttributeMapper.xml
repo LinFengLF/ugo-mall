@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.mju.ugomall.mapper.GoodsAttributeMapper">
+
+    <resultMap type="com.edu.mju.ugomall.entity.GoodsAttribute" id="GoodsAttributeMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="goodsId" column="goods_id" jdbcType="INTEGER"/>
+        <result property="attribute" column="attribute" jdbcType="VARCHAR"/>
+        <result property="value" column="value" jdbcType="VARCHAR"/>
+        <result property="addTime" column="add_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GoodsAttributeMap">
+        select
+          id, goods_id, attribute, value, add_time, update_time, deleted
+        from mall.goods_attribute
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GoodsAttributeMap">
+        select
+          id, goods_id, attribute, value, add_time, update_time, deleted
+        from mall.goods_attribute
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GoodsAttributeMap">
+        select
+          id, goods_id, attribute, value, add_time, update_time, deleted
+        from mall.goods_attribute
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="goodsId != null">
+                and goods_id = #{goodsId}
+            </if>
+            <if test="attribute != null and attribute != ''">
+                and attribute = #{attribute}
+            </if>
+            <if test="value != null and value != ''">
+                and value = #{value}
+            </if>
+            <if test="addTime != null">
+                and add_time = #{addTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="deleted != null">
+                and deleted = #{deleted}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into mall.goods_attribute(goods_id, attribute, value, add_time, update_time, deleted)
+        values (#{goodsId}, #{attribute}, #{value}, #{addTime}, #{updateTime}, #{deleted})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update mall.goods_attribute
+        <set>
+            <if test="goodsId != null">
+                goods_id = #{goodsId},
+            </if>
+            <if test="attribute != null and attribute != ''">
+                attribute = #{attribute},
+            </if>
+            <if test="value != null and value != ''">
+                value = #{value},
+            </if>
+            <if test="addTime != null">
+                add_time = #{addTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from mall.goods_attribute where id = #{id}
+    </delete>
+    <select id="getList" resultMap="GoodsAttributeMap">
+        select * from goods_attribute where 1 = 1
+    </select>
+
+</mapper>

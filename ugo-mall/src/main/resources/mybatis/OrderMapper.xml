@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.mju.ugomall.mapper.OrderMapper">
+
+    <resultMap type="com.edu.mju.ugomall.entity.Order" id="OrderMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="orderSn" column="order_sn" jdbcType="VARCHAR"/>
+        <result property="orderStatus" column="order_status" jdbcType="INTEGER"/>
+        <result property="consignee" column="consignee" jdbcType="VARCHAR"/>
+        <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="message" column="message" jdbcType="VARCHAR"/>
+        <result property="goodsPrice" column="goods_price" jdbcType="VARCHAR"/>
+        <result property="freightPrice" column="freight_price" jdbcType="VARCHAR"/>
+        <result property="couponPrice" column="coupon_price" jdbcType="VARCHAR"/>
+        <result property="integralPrice" column="integral_price" jdbcType="VARCHAR"/>
+        <result property="grouponPrice" column="groupon_price" jdbcType="VARCHAR"/>
+        <result property="orderPrice" column="order_price" jdbcType="VARCHAR"/>
+        <result property="actualPrice" column="actual_price" jdbcType="VARCHAR"/>
+        <result property="payId" column="pay_id" jdbcType="VARCHAR"/>
+        <result property="payTime" column="pay_time" jdbcType="TIMESTAMP"/>
+        <result property="shipSn" column="ship_sn" jdbcType="VARCHAR"/>
+        <result property="shipChannel" column="ship_channel" jdbcType="VARCHAR"/>
+        <result property="shipTime" column="ship_time" jdbcType="TIMESTAMP"/>
+        <result property="confirmTime" column="confirm_time" jdbcType="TIMESTAMP"/>
+        <result property="comments" column="comments" jdbcType="INTEGER"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="addTime" column="add_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OrderMap">
+        select
+          id, user_id, order_sn, order_status, consignee, mobile, address, message, goods_price, freight_price, coupon_price, integral_price, groupon_price, order_price, actual_price, pay_id, pay_time, ship_sn, ship_channel, ship_time, confirm_time, comments, end_time, add_time, update_time, deleted
+        from mall.order
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OrderMap">
+        select
+          id, user_id, order_sn, order_status, consignee, mobile, address, message, goods_price, freight_price, coupon_price, integral_price, groupon_price, order_price, actual_price, pay_id, pay_time, ship_sn, ship_channel, ship_time, confirm_time, comments, end_time, add_time, update_time, deleted
+        from mall.order
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="OrderMap">
+        select
+        id, user_id, order_sn, order_status, consignee, mobile, address, message, goods_price, freight_price,
+        coupon_price, integral_price, groupon_price, order_price, actual_price, pay_id, pay_time, ship_sn, ship_channel,
+        ship_time, confirm_time, comments, end_time, add_time, update_time, deleted
+        from mall.order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="orderSn != null and orderSn != ''">
+                and order_sn = #{orderSn}
+            </if>
+            <if test="orderStatus != null">
+                and order_status = #{orderStatus}
+            </if>
+            <if test="consignee != null and consignee != ''">
+                and consignee = #{consignee}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and mobile = #{mobile}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="message != null and message != ''">
+                and message = #{message}
+            </if>
+            <if test="goodsPrice != null and goodsPrice != ''">
+                and goods_price = #{goodsPrice}
+            </if>
+            <if test="freightPrice != null and freightPrice != ''">
+                and freight_price = #{freightPrice}
+            </if>
+            <if test="couponPrice != null and couponPrice != ''">
+                and coupon_price = #{couponPrice}
+            </if>
+            <if test="integralPrice != null and integralPrice != ''">
+                and integral_price = #{integralPrice}
+            </if>
+            <if test="grouponPrice != null and grouponPrice != ''">
+                and groupon_price = #{grouponPrice}
+            </if>
+            <if test="orderPrice != null and orderPrice != ''">
+                and order_price = #{orderPrice}
+            </if>
+            <if test="actualPrice != null and actualPrice != ''">
+                and actual_price = #{actualPrice}
+            </if>
+            <if test="payId != null and payId != ''">
+                and pay_id = #{payId}
+            </if>
+            <if test="payTime != null">
+                and pay_time = #{payTime}
+            </if>
+            <if test="shipSn != null and shipSn != ''">
+                and ship_sn = #{shipSn}
+            </if>
+            <if test="shipChannel != null and shipChannel != ''">
+                and ship_channel = #{shipChannel}
+            </if>
+            <if test="shipTime != null">
+                and ship_time = #{shipTime}
+            </if>
+            <if test="confirmTime != null">
+                and confirm_time = #{confirmTime}
+            </if>
+            <if test="comments != null">
+                and comments = #{comments}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="addTime != null">
+                and add_time = #{addTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="deleted != null">
+                and deleted = #{deleted}
+            </if>
+        </where>
+    </select>
+    <!--获取用户订单列表-->
+    <select id="getList" resultType="com.edu.mju.ugomall.entity.OrderAllinone">
+        SELECT
+        b.ship_channel,
+        b.ship_sn,
+        b.ship_time,
+        b.user_id,
+        b.id,
+        b.address,
+        b.pay_time,
+        b.mobile,
+        b.message,
+        b.consignee,
+        b.order_status,
+        b.order_sn,
+        b.actual_price,
+        a.goods_id,
+        a.goods_sn,
+        a.goods_name,
+        a.pic_url,
+        a.price,
+        a.specifications,
+        a.num
+        FROM
+        order_goods a,
+        `ORDER` b
+        WHERE
+        a.order_id = b.id
+        <if test="userId != null and userId != '' and userId != &quot;&quot;">
+            AND b.user_id = #{userId}
+        </if>
+        <if test="orderStatus != null and orderStatus != '' and orderStatus != &quot;&quot;">
+            AND b.order_status = #{orderStatus}
+        </if>
+        <if test="orderSn != null and orderSn != '' and orderSn != &quot;&quot;">
+            AND b.order_sn = #{orderSn}
+        </if>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into mall.order(user_id, order_sn, order_status, consignee, mobile, address, message, goods_price, freight_price, coupon_price, integral_price, groupon_price, order_price, actual_price, pay_id, pay_time, ship_sn, ship_channel, ship_time, confirm_time, comments, end_time, add_time, update_time, deleted)
+        values (#{userId}, #{orderSn}, #{orderStatus}, #{consignee}, #{mobile}, #{address}, #{message}, #{goodsPrice}, #{freightPrice}, #{couponPrice}, #{integralPrice}, #{grouponPrice}, #{orderPrice}, #{actualPrice}, #{payId}, #{payTime}, #{shipSn}, #{shipChannel}, #{shipTime}, #{confirmTime}, #{comments}, #{endTime}, #{addTime}, #{updateTime}, #{deleted})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update mall.order
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="orderSn != null and orderSn != ''">
+                order_sn = #{orderSn},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus},
+            </if>
+            <if test="consignee != null and consignee != ''">
+                consignee = #{consignee},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                mobile = #{mobile},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="message != null and message != ''">
+                message = #{message},
+            </if>
+            <if test="goodsPrice != null and goodsPrice != ''">
+                goods_price = #{goodsPrice},
+            </if>
+            <if test="freightPrice != null and freightPrice != ''">
+                freight_price = #{freightPrice},
+            </if>
+            <if test="couponPrice != null and couponPrice != ''">
+                coupon_price = #{couponPrice},
+            </if>
+            <if test="integralPrice != null and integralPrice != ''">
+                integral_price = #{integralPrice},
+            </if>
+            <if test="grouponPrice != null and grouponPrice != ''">
+                groupon_price = #{grouponPrice},
+            </if>
+            <if test="orderPrice != null and orderPrice != ''">
+                order_price = #{orderPrice},
+            </if>
+            <if test="actualPrice != null and actualPrice != ''">
+                actual_price = #{actualPrice},
+            </if>
+            <if test="payId != null and payId != ''">
+                pay_id = #{payId},
+            </if>
+            <if test="payTime != null">
+                pay_time = #{payTime},
+            </if>
+            <if test="shipSn != null and shipSn != ''">
+                ship_sn = #{shipSn},
+            </if>
+            <if test="shipChannel != null and shipChannel != ''">
+                ship_channel = #{shipChannel},
+            </if>
+            <if test="shipTime != null">
+                ship_time = #{shipTime},
+            </if>
+            <if test="confirmTime != null">
+                confirm_time = #{confirmTime},
+            </if>
+            <if test="comments != null">
+                comments = #{comments},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="addTime != null">
+                add_time = #{addTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--&lt;!&ndash;更新订单状态&ndash;&gt;-->
+    <!--<update id="updateOrderStatus">-->
+    <!--update mall.order-->
+    <!--<set>-->
+    <!--<if test="orderStatus != null">-->
+    <!--order_status = #{orderStatus},-->
+    <!--</if>-->
+    <!--<if test="updateTime != null">-->
+    <!--update_time = #{updateTime},-->
+    <!--</if>-->
+    <!--</set>-->
+    <!--where id = #{id}-->
+    <!--</update>-->
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from mall.order where id = #{id}
+    </delete>
+    <select id="getOrderNum" resultType="int">
+        select count(*) from mall.order
+    </select>
+
+</mapper>

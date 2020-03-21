@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.mju.ugomall.mapper.GoodsMapper">
+
+    <resultMap type="com.edu.mju.ugomall.entity.Goods" id="GoodsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="goodsSn" column="goods_sn" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+        <result property="brandId" column="brand_id" jdbcType="INTEGER"/>
+        <result property="gallery" column="gallery" jdbcType="VARCHAR"
+                typeHandler="com.edu.mju.ugomall.utils.JsonStringArrayTypeHandler"/>
+        <result property="keywords" column="keywords" jdbcType="VARCHAR"/>
+        <result property="brief" column="brief" jdbcType="VARCHAR"/>
+        <result property="isOnSale" column="is_on_sale" jdbcType="INTEGER"/>
+        <result property="sortOrder" column="sort_order" jdbcType="INTEGER"/>
+        <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
+        <result property="shareUrl" column="share_url" jdbcType="VARCHAR"/>
+        <result property="isNew" column="is_new" jdbcType="INTEGER"/>
+        <result property="isHot" column="is_hot" jdbcType="INTEGER"/>
+        <result property="unit" column="unit" jdbcType="VARCHAR"/>
+        <result property="counterPrice" column="counter_price" jdbcType="NUMERIC"/>
+        <result property="retailPrice" column="retail_price" jdbcType="NUMERIC"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
+        <result property="addTime" column="add_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GoodsMap">
+        select
+          id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, sort_order, pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price, detail, add_time, update_time, deleted
+        from mall.goods
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GoodsMap">
+        select
+          id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, sort_order, pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price, detail, add_time, update_time, deleted
+        from mall.goods
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GoodsMap">
+        select
+          id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, sort_order, pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price, detail, add_time, update_time, deleted
+        from mall.goods
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="goodsSn != null and goodsSn != ''">
+                and goods_sn = #{goodsSn}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="brandId != null">
+                and brand_id = #{brandId}
+            </if>
+            <if test="gallery != null and gallery != ''">
+                and gallery = #{gallery}
+            </if>
+            <if test="keywords != null and keywords != ''">
+                and keywords = #{keywords}
+            </if>
+            <if test="brief != null and brief != ''">
+                and brief = #{brief}
+            </if>
+            <if test="isOnSale != null">
+                and is_on_sale = #{isOnSale}
+            </if>
+            <if test="sortOrder != null">
+                and sort_order = #{sortOrder}
+            </if>
+            <if test="picUrl != null and picUrl != ''">
+                and pic_url = #{picUrl}
+            </if>
+            <if test="shareUrl != null and shareUrl != ''">
+                and share_url = #{shareUrl}
+            </if>
+            <if test="isNew != null">
+                and is_new = #{isNew}
+            </if>
+            <if test="isHot != null">
+                and is_hot = #{isHot}
+            </if>
+            <if test="unit != null and unit != ''">
+                and unit = #{unit}
+            </if>
+            <if test="counterPrice != null">
+                and counter_price = #{counterPrice}
+            </if>
+            <if test="retailPrice != null">
+                and retail_price = #{retailPrice}
+            </if>
+            <if test="detail != null and detail != ''">
+                and detail = #{detail}
+            </if>
+            <if test="addTime != null">
+                and add_time = #{addTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="deleted != null">
+                and deleted = #{deleted}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into mall.goods(goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, sort_order, pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price, detail, add_time, update_time, deleted)
+        values (#{goodsSn}, #{name}, #{categoryId}, #{brandId}, #{gallery,jdbcType=VARCHAR,typeHandler=com.edu.mju.ugomall.utils.JsonStringArrayTypeHandler}, #{keywords}, #{brief}, #{isOnSale}, #{sortOrder}, #{picUrl}, #{shareUrl}, #{isNew}, #{isHot}, #{unit}, #{counterPrice}, #{retailPrice}, #{detail}, #{addTime}, #{updateTime}, #{deleted})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update mall.goods
+        <set>
+            <if test="goodsSn != null and goodsSn != '' and goodsSn != &quot;&quot;">
+                goods_sn = #{goodsSn},
+            </if>
+            <if test="name != null and name != '' and name != &quot;&quot;">
+                name = #{name},
+            </if>
+            <if test="categoryId != null and categoryId != '' and categoryId != &quot;&quot;">
+                category_id = #{categoryId},
+            </if>
+            <if test="brandId != null and brandId != '' and brandId != &quot;&quot;">
+                brand_id = #{brandId},
+            </if>
+            <if test="gallery != null and gallery != '' and gallery != &quot;&quot;">
+                gallery = #{gallery,jdbcType=VARCHAR,typeHandler=com.edu.mju.ugomall.utils.JsonStringArrayTypeHandler},
+            </if>
+            <if test="keywords != null and keywords != '' and keywords != &quot;&quot;">
+                keywords = #{keywords},
+            </if>
+            <if test="brief != null and brief != '' and brief != &quot;&quot;">
+                brief = #{brief},
+            </if>
+            <if test="isOnSale != null">
+                is_on_sale = #{isOnSale},
+            </if>
+            <if test="sortOrder != null">
+                sort_order = #{sortOrder},
+            </if>
+            <if test="picUrl != null and picUrl != '' and picUrl != &quot;&quot;">
+                pic_url = #{picUrl},
+            </if>
+            <if test="shareUrl != null and shareUrl != '' and shareUrl != &quot;&quot;">
+                share_url = #{shareUrl},
+            </if>
+            <if test="isNew != null">
+                is_new = #{isNew},
+            </if>
+            <if test="isHot != null">
+                is_hot = #{isHot},
+            </if>
+            <if test="unit != null and unit != '' and unit != &quot;&quot;">
+                unit = #{unit},
+            </if>
+            <if test="counterPrice != null and counterPrice != '' and counterPrice != &quot;&quot;">
+                counter_price = #{counterPrice},
+            </if>
+            <if test="retailPrice != null and retailPrice != '' and retailPrice != &quot;&quot;">
+                retail_price = #{retailPrice},
+            </if>
+            <if test="detail != null and detail != '' and detail != &quot;&quot;">
+                detail = #{detail},
+            </if>
+            <if test="addTime != null">
+                add_time = #{addTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from mall.goods where id = #{id}
+    </delete>
+
+    <!--查询商品信息-->
+    <select id="getGoodsInfo" resultMap="GoodsMap">
+        select * from goods
+        where 1 = 1
+        <if test="goodsSn != null and goodsSn != &quot;&quot; and goodsSn != ''">
+            and goods_sn like concat ('%',#{goodsSn},'%')
+        </if>
+        <if test="name != null and name != &quot;&quot; and name != ''">
+            and name like concat ('%',#{name},'%')
+        </if>
+        <if test="id != null and id != &quot;&quot; and id != ''">
+            and id like concat ('%',#{id},'%')
+        </if>
+        <if test="categoryId != null and categoryId != &quot;&quot; and categoryId != ''">
+            and category_id like concat ('%',#{categoryId},'%')
+        </if>
+    </select>
+
+    <delete id="deleteByBatch">
+        delete from goods
+        where id
+        in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="getGoodsNum" resultType="int">
+        select count(*) from goods
+    </select>
+
+</mapper>

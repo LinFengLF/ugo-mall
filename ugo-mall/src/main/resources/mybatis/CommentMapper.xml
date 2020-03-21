@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.mju.ugomall.mapper.CommentMapper">
+
+    <resultMap type="com.edu.mju.ugomall.entity.Comment" id="CommentMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="valueId" column="value_id" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="star" column="star" jdbcType="VARCHAR"/>
+        <result property="addTime" column="add_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CommentMap">
+        select
+          id, value_id, type, content, user_id, star, add_time, update_time, deleted
+        from mall.comment
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CommentMap">
+        select
+          id, value_id, type, content, user_id, star, add_time, update_time, deleted
+        from mall.comment
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CommentMap">
+        select
+          id, value_id, type, content, user_id, star, add_time, update_time, deleted
+        from mall.comment
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="valueId != null">
+                and value_id = #{valueId}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="star != null and star != ''">
+                and star = #{star}
+            </if>
+            <if test="addTime != null">
+                and add_time = #{addTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="deleted != null">
+                and deleted = #{deleted}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into mall.comment(value_id, type, content, user_id, star, add_time, update_time, deleted)
+        values (#{valueId}, #{type}, #{content}, #{userId}, #{star}, #{addTime}, #{updateTime}, #{deleted})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update mall.comment
+        <set>
+            <if test="valueId != null">
+                value_id = #{valueId},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="star != null and star != ''">
+                star = #{star},
+            </if>
+            <if test="addTime != null">
+                add_time = #{addTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from mall.comment where id = #{id}
+    </delete>
+
+    <!--查询所有评论-->
+    <select id="getList" resultMap="CommentMap">
+        SELECT * FROM comment
+        WHERE 1 = 1
+        <if test="userId != null and userId != &quot;&quot; and userId != ''">
+            and user_id like concat('%', #{userId}, '%')
+        </if>
+        <if test="valueId != null and valueId != &quot;&quot; and valueId != ''">
+            and value_id like concat('%', #{valueId}, '%')
+        </if>
+    </select>
+    <!--批量删除-->
+    <delete id="deleteByBatch">
+        DELETE FROM comment
+        WHERE id
+        IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="getCommentNum" resultType="int">
+        select count(*) from comment
+    </select>
+
+</mapper>

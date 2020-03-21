@@ -1,0 +1,90 @@
+.login{
+    background: white;
+    .l-wrap{
+        width:540rpx;
+        padding-top: 200rpx;
+        margin:0 auto;
+        .w-title{
+            padding-bottom: 40rpx;
+            text{
+                font-size: 36rpx;
+                font-weight: 600;
+            }
+        }
+        .w-form{
+            .f-input{
+                .i-item{
+                    display: flex;
+                    align-items: center;
+                    height: 80rpx;
+                    padding: 0 30rpx;
+                    background: #f7f7f7;
+                    input{
+                        flex:1;
+                        border:none;
+                        outline: none;
+                        background: #f7f7f7;
+                    }
+                    &:not(:first-child){
+                        margin-top: 20rpx;
+                    }
+                }
+            }
+            .f-btn{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 80rpx;
+                margin-top: 20rpx;
+                background: #007fff;
+                text{
+                    color:white;
+                }
+            }
+        }
+        .w-service{
+            display: flex;
+            justify-content: space-between;
+            padding: 20rpx 0 40rpx 0;
+            font-size: 28rpx;
+            color:#71777c;
+            .s-left{
+                text{
+                    &:last-child{
+                        color:#007fff;
+                    }
+                }
+            }
+            .s-right{
+                text{
+                    color:#007fff;
+                }
+            }
+        }
+        .w-third{
+            .t-title{
+                text{
+                    color:#71777c;
+                }
+            }
+            .t-entry{
+                display: flex;
+                justify-content: space-around;
+                padding-top: 40rpx;
+                .e-item{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width:90rpx;
+                    height: 90rpx;
+                    border-radius: 45rpx;
+                    background: #f7f7f7;
+                    text{
+                        font-size: 60rpx;
+                    }
+                }
+            }
+        }
+    }
+
+}

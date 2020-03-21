@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.mju.ugomall.mapper.AddressMapper">
+
+    <resultMap type="com.edu.mju.ugomall.entity.Address" id="AddressMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="county" column="county" jdbcType="VARCHAR"/>
+        <result property="addressDetail" column="address_detail" jdbcType="VARCHAR"/>
+        <result property="areaCode" column="area_code" jdbcType="VARCHAR"/>
+        <result property="postalCode" column="postal_code" jdbcType="VARCHAR"/>
+        <result property="tel" column="tel" jdbcType="VARCHAR"/>
+        <result property="isDefault" column="is_default" jdbcType="INTEGER"/>
+        <result property="addTime" column="add_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+        <result property="label" column="label" jdbcType="VARCHAR"/>
+        <result property="cityValue" column="city_value" jdbcType="VARCHAR"
+                typeHandler="com.edu.mju.ugomall.utils.JsonStringArrayTypeHandler"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AddressMap">
+        select
+          id, name, user_id, province, city, county, address_detail, area_code, postal_code, tel, is_default, add_time, update_time, deleted, city_value, label
+        from mall.address
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AddressMap">
+        select
+          id, name, user_id, province, city, county, address_detail, area_code, postal_code, tel, is_default, add_time, update_time, deleted, city_value, label
+        from mall.address
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AddressMap">
+        select
+        id, name, user_id, province, city, county, address_detail, area_code, postal_code, tel, is_default, add_time,
+        update_time, deleted, city_value, label
+        from mall.address
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="county != null and county != ''">
+                and county = #{county}
+            </if>
+            <if test="addressDetail != null and addressDetail != ''">
+                and address_detail = #{addressDetail}
+            </if>
+            <if test="areaCode != null and areaCode != ''">
+                and area_code = #{areaCode}
+            </if>
+            <if test="postalCode != null and postalCode != ''">
+                and postal_code = #{postalCode}
+            </if>
+            <if test="tel != null and tel != ''">
+                and tel = #{tel}
+            </if>
+            <if test="isDefault != null">
+                and is_default = #{isDefault}
+            </if>
+            <if test="addTime != null">
+                and add_time = #{addTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="deleted != null">
+                and deleted = #{deleted}
+            </if>
+            <if test="cityValue != null">
+                and city_value = #{cityValue}
+            </if>
+            <if test="label != null">
+                and label = #{label}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into mall.address(name, user_id, province, city, county, address_detail, area_code, postal_code, tel, is_default, add_time, update_time, deleted,city_value,label)
+        values
+        (#{name}, #{userId}, #{province}, #{city}, #{county}, #{addressDetail}, #{areaCode}, #{postalCode}, #{tel}, #{isDefault}, #{addTime}, #{updateTime}, #{deleted}, #{cityValue,typeHandler=com.edu.mju.ugomall.utils.JsonStringArrayTypeHandler},#{label})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update mall.address
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="county != null and county != ''">
+                county = #{county},
+            </if>
+            <if test="addressDetail != null and addressDetail != ''">
+                address_detail = #{addressDetail},
+            </if>
+            <if test="areaCode != null and areaCode != ''">
+                area_code = #{areaCode},
+            </if>
+            <if test="postalCode != null and postalCode != ''">
+                postal_code = #{postalCode},
+            </if>
+            <if test="tel != null and tel != ''">
+                tel = #{tel},
+            </if>
+            <if test="isDefault != null">
+                is_default = #{isDefault},
+            </if>
+            <if test="addTime != null">
+                add_time = #{addTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+            <if test="cityValue != null">
+                city_value = #{cityValue,typeHandler=com.edu.mju.ugomall.utils.JsonStringArrayTypeHandler},
+            </if>
+            <if test="label != null and label != ''">
+                label = #{label}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from mall.address where id = #{id}
+    </delete>
+
+    <!--带分页查询-->
+    <select id="getList" resultMap="AddressMap">
+        SELECT * FROM address
+        WHERE 1=1
+        <if test="userId != null and userId != &quot;&quot; and userId != ''">
+            and user_id like concat('%', #{userId}, '%')
+        </if>
+        <if test="name != null and name != &quot;&quot; and name != ''">
+            and name like concat('%', #{name}, '%')
+        </if>
+    </select>
+    <!--删除-->
+    <delete id="deleteByBatch">
+        DELETE FROM address
+        WHERE id
+        IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <!--通过用户id查询地址列表-->
+    <select id="getListByUserId" resultMap="AddressMap">
+        select * from address
+        where user_id = #{userId};
+    </select>
+    <select id="getByIsDefault" resultMap="AddressMap">
+        select * from address
+        where is_default = 1
+    </select>
+
+</mapper>
